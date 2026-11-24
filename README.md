@@ -27,6 +27,18 @@ The project consists of three main components:
     - **Primary**: Local Llama 3.2 3B (Fine-Tuned with LoRA adapters for simplification/accessibility tasks).
     - **Fallback**: Integration with Groq or Gemini APIs for higher throughput or backup.
 
+## 🧪 Fine-Tuning
+
+The simplification model is Llama 3.2 3B Instruct, fine-tuned with QLoRA (`training/train_llama.py`):
+
+| Setting | Value |
+|---|---|
+| Training data | Text chunks taken from Wikipedia, split into train and eval sets |
+| Quantization | 4-bit NF4 with double quantization (bitsandbytes) |
+| LoRA | rank 16, alpha 32, dropout 0.05, on `q_proj`, `k_proj`, `v_proj`, `o_proj` |
+| Training | 2 epochs, learning rate 2e-4, batch size 1, gradient accumulation 4, max length 512 |
+| Evaluation | Eval loss and perplexity on the held-out split (`training/eval_llama.py`) |
+
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
@@ -91,6 +103,10 @@ GEMINI_API_KEY="your_gemini_key"
 2.  **Select Text**: Highlight any text on a webpage.
 3.  **Toolbar**: A floating toolbar will appear. Click "Simplify", "Explain", or "Translate".
 4.  **Fallback**: If no text is selected, SNAP can process the entire visible page content.
+
+## 👥 Team
+
+SNAP is a team project. The original repository is [shreyaspathki/Llama-SNAP](https://github.com/shreyaspathki/Llama-SNAP); this is a fork. The team built every part together. Arya Gowda S ([@Arya0005](https://github.com/Arya0005)) worked across the project, including the LoRA fine-tuning and the frontend design.
 
 ## 🤝 Contributing
 
